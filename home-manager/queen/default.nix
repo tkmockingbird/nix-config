@@ -4,7 +4,11 @@
   pkgs,
   ...
 }: {
-  imports = [../common];
+  imports = [
+    ../common
+    ./git
+    ./desktop-entries
+  ];
 
   home.packages = with pkgs; [
     chromium

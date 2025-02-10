@@ -1,12 +1,17 @@
 {
   nixpkgs,
   self,
+  home-manager,
+  nix-flatpak,
+  zen-browser,
+  nixpkgsConfig,
   ...
 }: let
   inherit (self) inputs;
 
-  mkHost = name: system:
+  mkHost = name: system: user:
     nixpkgs.lib.nixosSystem {
+      inherit system;
       modules = [
         ({
           config,
@@ -14,9 +19,20 @@
           ...
         }: {
           networking.hostName = name;
-          nixpkgs.hostPlatform = system;
+          nixpkgs = nixpkgsConfig;
         })
         (./. + "/${name}")
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.${user} = import (../home-manager + "/${name}");
+          home-manager.extraSpecialArgs = {
+            inherit inputs;
+            flake = self;
+          };
+        }
+        nix-flatpak.nixosModules.nix-flatpak
       ];
 
       specialArgs = {
@@ -25,6 +41,6 @@
       };
     };
 in {
-  king = mkHost "king" "x86_64-linux";
-  queen = mkHost "queen" "x86_64-linux";
+  king = mkHost "king" "x86_64-linux" "zachary";
+  queen = mkHost "queen" "x86_64-linux" "sarah";
 }

@@ -63,7 +63,7 @@ if [[ " ${valid_commands[@]} " =~ " ${rebuild_type} " ]]; then
             read -p "Enter commit message: " commit_message
             git add .
             git commit -m "$commit_message"
-            git push origin master
+            git push origin
         else
             echo "No changes to commit."
         fi

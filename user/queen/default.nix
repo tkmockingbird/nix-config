@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  inputs,
   ...
 }: {
   users.users.sarah = {
@@ -17,18 +18,31 @@
       "nix"
       "lp"
       "scanner"
+      "podman"
     ];
   };
 
-  # SSH Configuration
-  programs.ssh = {
-    startAgent = true;
-    extraConfig = ''
-      AddKeysToAgent yes
-    '';
+  services.xserver = {
+    xkb = {
+      layout = "us,us";
+      variant = ",workman";
+      options = "grp:win_space_toggle,caps:capslock";
+    };
+    autoRepeatDelay = 275;
+    autoRepeatInterval = 32;
   };
 
-  # Flatpak Declarative
+  environment.systemPackages = with pkgs; [
+  ];
+
+  # GPG configuration
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+    pinentryPackage = pkgs.pinentry-qt;
+  };
+
+  # Flatpak Configuration
   services.flatpak = {
     enable = true;
     update.onActivation = true;

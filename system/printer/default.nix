@@ -18,7 +18,11 @@
   # Enable Printing & Specify Drivers
   services.printing = {
     enable = true;
-    drivers = [pkgs.canon-cups-ufr2];
+    drivers = [
+      (pkgs.canon-cups-ufr2.overrideAttrs (oldAttrs: {
+        dontCheckForBrokenSymlinks = true;
+      }))
+    ];
   };
   # SCANNER CONFIGURATION
   # Enable Network Device Discovery - NixOS Doesn't Natively Support Canon ImageClass

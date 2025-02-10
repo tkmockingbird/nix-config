@@ -29,16 +29,6 @@ in {
       };
     };
 
-    xserver = {
-      xkb = {
-        layout = "us,us";
-        variant = "workman,";
-        options = "grp:win_space_toggle,caps:capslock";
-      };
-      autoRepeatDelay = 275;
-      autoRepeatInterval = 32;
-    };
-
     desktopManager.plasma6.enable = true;
     desktopManager.plasma6.enableQt5Integration = true;
   };

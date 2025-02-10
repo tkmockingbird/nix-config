@@ -8,7 +8,6 @@
 in {
   imports = [
     ./bash
-    ./git
     ./tealdeer
     ./vscode
   ];
@@ -20,17 +19,14 @@ in {
     fastfetch
     ddcutil
     unrar
-    podman-desktop
     appimage-run
-    clinfo
     efibootmgr
+    nix-prefetch-git
+    nix-prefetch-github
 
     # Browser Related
     persepolis
     xclicker
-
-    # Windows Emulation
-    bottles
 
     # Entertainment
     stremio
@@ -73,9 +69,7 @@ in {
     protontricks
     mono
     mangohud
-    r2modman
-    vkbasalt
-    vkbasalt-cli
+    bottles
 
     # Torrenting
     calibre
