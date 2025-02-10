@@ -14,10 +14,10 @@
     package = pkgs.git;
 
     # SSH key configuration
-    signing = {
-      key = "7DFAE613BBACACB80DBFFB31D8E0D05600EE3146";
-      signByDefault = true;
-    };
+#     signing = {
+#       key = "7DFAE613BBACACB80DBFFB31D8E0D05600EE3146";
+#       signByDefault = true;
+#     };
 
     # Useful aliases
     aliases = {
@@ -49,8 +49,8 @@
         defaultBranch = "main";
       };
       url = {
-        "git@gitlab.com:" = {
-          insteadOf = "https://gitlab.com/";
+        "git@github.com:" = {
+          insteadOf = "https://github.com/";
         };
       };
     };
