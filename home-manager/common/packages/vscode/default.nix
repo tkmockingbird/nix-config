@@ -11,7 +11,7 @@
       "workbench.colorTheme" = "One Dark Pro Darker";
       "workbench.iconTheme" = "material-icon-theme";
       editor = {
-        "fontFamily" = "Fira Code";
+        "fontFamily" = "FiraCode Nerd Font Mono";
         "fontWeight" = "600";
         "wordWrap" = "on";
         "formatOnPaste" = true;
@@ -40,7 +40,6 @@
         "renderWhitespace" = "all";
         "rulers" = [80 120];
         "minimap.enabled" = false;
-        "overtype" = false;
       };
       "security.workspace.trust.untrustedFiles" = "open";
       "extensions.autoCheckUpdates" = true;
