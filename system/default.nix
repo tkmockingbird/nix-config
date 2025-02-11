@@ -5,6 +5,6 @@
     ./nix
     ./printer
     ./programs
-    #./services
+    ./services
   ];
 }
