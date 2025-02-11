@@ -4,8 +4,8 @@
     settings = {
       cursor = {
         shape = "beam";
-        blinking = "true";
-        blinking-interval = "800";
+        blinking = true;
+        blinking-interval = 800;
       };
     };
   };
