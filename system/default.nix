@@ -6,5 +6,6 @@
     ./printer
     ./programs
     ./services
+    ./fonts
   ];
 }
