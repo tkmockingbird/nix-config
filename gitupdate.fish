@@ -17,6 +17,9 @@ fish -c "
     end
 " &
 
+# Define nixos-rebuild commands
+set valid_commands switch boot test build dry-activate build-vm build-vm-with-bootloader dry-build edit
+
 # Specify Rebuild Command
 read -P "Enter nixos-rebuild command (default: switch): " rebuild_type
 
@@ -64,53 +67,57 @@ end
 log_message "Nix-config Copied to /etc/nixos"
 
 # Attempt to rebuild the system
-if sudo nixos-rebuild $rebuild_type 2>&1 | sudo tee -a $log_file
-    log_message "NIXOS REBUILD COMPLETED"
-    if test -f "/etc/nixos/flake.lock"
-        log_message "Updating git's flake.lock"
-        sudo cp "/etc/nixos/flake.lock" "/home/$current_user/nix-config/flake.lock"
-        sudo chown $current_user:users "/home/$current_user/nix-config/flake.lock"
-    else
-        log_message "No flake.lock found in /etc/nixos. Skipping flake.lock update."
-    end
+if contains $rebuild_type $valid_commands
+    if sudo nixos-rebuild $rebuild_type 2>&1 | sudo tee -a $log_file
+        log_message "NIXOS REBUILD COMPLETED"
+        if test -f "/etc/nixos/flake.lock"
+            log_message "Updating git's flake.lock"
+            sudo cp "/etc/nixos/flake.lock" "/home/$current_user/nix-config/flake.lock"
+            sudo chown $current_user:users "/home/$current_user/nix-config/flake.lock"
+        else
+            log_message "No flake.lock found in /etc/nixos. Skipping flake.lock update."
+        end
 
-    # Change ownership of the copied files to root
-    if not sudo chown -R root: $nixos_dir/
-        log_message "Ownership change failed"
-        exit 1
-    end
-    log_message "Changed ownership of $nixos_dir to root."
-
-    # Skip Git operations if rebuild_type is 'test'
-    if test $rebuild_type != test
-        # Change to Git directory
-        cd $config_dir
-        if not test -d ".git"
-            log_message "Not a Git repository. Exiting."
+        # Change ownership of the copied files to root
+        if not sudo chown -R root: $nixos_dir/
+            log_message "Ownership change failed"
             exit 1
         end
+        log_message "Changed ownership of $nixos_dir to root."
 
-        # Git commit and push
-        if not git diff-index --quiet HEAD --
-            read -P "Enter commit message: " commit_message
-            git add .
-            git commit -m $commit_message
-            git push origin
-            log_message "Changes committed and pushed to Git repository"
+        # Skip Git operations if rebuild_type is 'test'
+        if test $rebuild_type != test
+            # Change to Git directory
+            cd $config_dir
+            if not test -d ".git"
+                log_message "Not a Git repository. Exiting."
+                exit 1
+            end
+
+            # Git commit and push
+            if not git diff-index --quiet HEAD --
+                read -P "Enter commit message: " commit_message
+                git add .
+                git commit -m $commit_message
+                git push origin
+                log_message "Changes committed and pushed to Git repository"
+            else
+                log_message "No changes to commit."
+            end
         else
-            log_message "No changes to commit."
+            log_message "Rebuild type is 'test'. Skipping Git operations."
         end
     else
-        log_message "Rebuild type is 'test'. Skipping Git operations."
+        log_message "NIXOS REBUILD FAILED. Previous configuration restored."
+        sudo rm -rf $nixos_dir
+        sudo cp -r $backup_dir/nixos $nixos_dir
     end
 else
-    log_message "NIXOS REBUILD FAILED. Previous configuration restored."
+    log_message "Invalid rebuild type. Valid options are: $valid_commands"
+    log_message "Previous configuration restored."
     sudo rm -rf $nixos_dir
     sudo cp -r $backup_dir/nixos $nixos_dir
 end
-log_message "Previous configuration restored."
-sudo rm -rf $nixos_dir
-sudo cp -r $backup_dir/nixos $nixos_dir
 
 # Clean up the temporary backup
 sudo rm -rf $backup_dir
