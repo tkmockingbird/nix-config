@@ -1,27 +1,10 @@
 {pkgs, ...}: {
-  # Adding automatic nix flake updates:
-  system.autoUpgrade = {
-    enable = true;
-    flake = "github:tkmockingbird/nix-config";
-    flags = [
-      "--update-input"
-      "nixpkgs"
-      "--commit-lock-file"
-    ];
-    dates = "06:15";
-    persistent = true;
-  };
-
   nix = {
     # Enable lix
     package = pkgs.lix;
 
     # Automated Garbage Collection
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-old-than 3d";
-    };
+    gc.automatic = false;
 
     settings = {
       auto-optimise-store = true;
@@ -40,6 +23,10 @@
       log-lines = 20;
       # Enables Flakes and other experimental commands
       extra-experimental-features = ["flakes" "nix-command" "recursive-nix" "ca-derivations"];
+      # Sandboxes packages, isolating them from eachother unless they do not require root access.
+      sandbox = "relaxed";
+      # Automatic usage of --show-trace when a build error occurs
+      show-trace = true;
       # Uses binary Cache - Saves download time
       substituters = [
         "https://cache.nixos.org"
@@ -53,10 +40,5 @@
         "llama-cpp.cachix.org-1:H75X+w83wUKTIPSO1KWy9ADUrzThyGs8P5tmAbkWhQc="
       ];
     };
-  };
-  # Allow Broken and Unfree Nixpkgs
-  nixpkgs.config = {
-    allowUnfree = true;
-    allowBroken = true;
   };
 }
