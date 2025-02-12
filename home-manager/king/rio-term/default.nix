@@ -4,7 +4,10 @@
     settings = {
       hide-cursor-when-typing = true;
       padding-x = 8;
-      padding-y = ["10" "5"];
+      padding-y = [
+        10
+        5
+      ];
 
       confirm-before-quit = false;
 
@@ -38,7 +41,7 @@
         size = 16;
 
         regular = {
-          family = "MesloLGS Nerd Font Mono";
+          family = "FiraCode Nerd Font Mono";
           style = "Normal";
           weight = 400;
         };
