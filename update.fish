@@ -7,22 +7,26 @@ end
 
 # Cache sudo credentials & Keep them active
 sudo -v
-while true
-    sudo -n true
-    sleep 60
-    if not kill -0 %self
-        exit
+fish -c "
+    while true
+        sudo -n true
+        sleep 60
+        if not kill -0 $fish_pid
+            exit
+        end
     end
-end &
+" &
 
 # Define nixos-rebuild commands
 set valid_commands switch boot test build dry-activate build-vm build-vm-with-bootloader dry-build edit
 
 # Specify Rebuild Command
-read -P "Enter nixos-rebuild command: " rebuild_type
+read -P "Enter nixos-rebuild command (default: switch): " rebuild_type
 
-# Sets default rebuild to switch
-set -q rebuild_type[1]; or set rebuild_type switch
+# Sets default rebuild to switch if input is empty
+if test -z "$rebuild_type"
+    set rebuild_type switch
+end
 
 # Get the current user
 set current_user (whoami)
