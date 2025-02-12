@@ -29,7 +29,7 @@
         )
 
         # Source the theme file
-        source ~/.config/themes/theme.nu
+        source ~/.config/themes/one-dark.nu
 
         # Apply the theme
         $env.config.color_config = (main)
