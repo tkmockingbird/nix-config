@@ -67,22 +67,28 @@ if [[ " ${valid_commands[@]} " =~ " ${rebuild_type} " ]]; then
         sudo chown -R root: "$nixos_dir/" || { log_message "Ownership change failed"; exit 1; }
         log_message "Changed ownership of files in $nixos_dir to root."
 
-        # Change to Git directory
-        cd "$config_dir"
-        if [ ! -d ".git" ]; then
-            log_message "Not a Git repository. Exiting."
-            exit 1
-        fi
+        # Skip Git operations if rebuild_type is 'test'
+        if [ "$rebuild_type" != "test" ]; then
+            # Change to Git directory
+            cd "$config_dir"
 
-        # Git commit and push
-        if ! git diff-index --quiet HEAD --; then
-            read -p "Enter commit message: " commit_message
-            git add .
-            git commit -m "$commit_message"
-            git push origin
-            log_message "Changes committed and pushed to Git repository"
+            if [ ! -d ".git" ]; then
+                log_message "Not a Git repository. Exiting."
+                exit 1
+            fi
+
+            # Git commit and push
+            if ! git diff-index --quiet HEAD --; then
+                read -p "Enter commit message: " commit_message
+                git add .
+                git commit -m "$commit_message"
+                git push origin
+                log_message "Changes committed and pushed to Git repository"
+            else
+                log_message "No changes to commit."
+            fi
         else
-            log_message "No changes to commit."
+            log_message "Rebuild type is 'test'. Skipping Git operations."
         fi
     else
         log_message "NIXOS REBUILD FAILED. Previous configuration restored."
