@@ -7,6 +7,7 @@
   imports = [
     ./services
   ];
+  programs.fish.enable = true;
   users.users.zachary = {
     isNormalUser = true;
     description = "Zachary Bell Peppers";
