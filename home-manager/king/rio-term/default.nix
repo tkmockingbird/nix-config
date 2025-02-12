@@ -2,7 +2,7 @@
   programs.rio = {
     enable = true;
     settings = {
-      theme = "/home/zachary/.config/themes/Breeze.toml";
+      theme = "/home/zachary/.config/themes/rio-term/OneHalfDark.toml";
       hide-cursor-when-typing = true;
       padding-x = 8;
       padding-y = [
