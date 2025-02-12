@@ -44,7 +44,7 @@
         upgit = "/home/$(whoami)/nix-config/gitupdate.sh";
         update = "/home/$(whoami)/nix-config/update.sh";
         garbage = "sudo nix-collect-garbage -d";
-        upflake = "cd /home/$(whoami)/nix-config and nix flake update && cd ~";
+        upflake = "cd /home/$(whoami)/nix-config; nix flake update; cd ~";
       };
     };
     carapace.enable = true;
