@@ -4,10 +4,11 @@
   inputs,
   ...
 }: {
+  programs.fish.enable = true;
   users.users.sarah = {
     isNormalUser = true;
     description = "Sarah Nicole Smallwood";
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
     extraGroups = [
       "networkmanager"
       "wheel"

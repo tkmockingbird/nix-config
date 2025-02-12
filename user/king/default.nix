@@ -38,7 +38,6 @@
 
   environment.systemPackages = with pkgs; [
     inputs.zen-browser.packages.${pkgs.system}.default
-    fish
   ];
 
   # GPG configuration
