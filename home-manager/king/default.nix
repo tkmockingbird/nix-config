@@ -8,7 +8,7 @@
     ../common
     ./git
     ./desktop-entries
-    # ./rio-term
+    ./rio-term
   ];
 
   home.packages = with pkgs; [

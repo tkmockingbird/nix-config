@@ -45,7 +45,7 @@
       };
 
       shell = {
-        program = "/usr/bin/nu";
+        program = "/etc/profiles/per-user/zachary/bin/nu";
         args = ["--login"];
       };
     };
