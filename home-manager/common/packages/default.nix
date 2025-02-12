@@ -10,7 +10,6 @@ in {
     ./bash
     ./tealdeer
     ./vscode
-    ./rio-term
   ];
   home.packages = with pkgs; [
     # CLI Tools
