@@ -16,5 +16,6 @@
     hwinfo
     tealdeer
     grc
+    zsh
   ];
 }

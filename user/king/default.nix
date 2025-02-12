@@ -10,7 +10,7 @@
   users.users.zachary = {
     isNormalUser = true;
     description = "Zachary Bell Peppers";
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
     extraGroups = [
       "networkmanager"
       "wheel"
