@@ -73,9 +73,9 @@ sudo rm -rf $nixos_dir/
 if not sudo cp -r $config_dir/ $nixos_dir/
     log_message "Copy failed"
     exit 1
+else
+    log_message "Nix-config copied to /etc/nixos"
 end
-
-log_message "Nix-config Copied to /etc/nixos"
 
 # Attempt to rebuild the system
 if contains $rebuild_type $valid_commands
