@@ -133,7 +133,7 @@
       jctl = "journalctl -p 3 -xb";
       rip = "expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl";
       upgit = "/home/$USER/nix-config/gitupdate.sh";
-      update = "/home/$USER/nix-config/update.sh";
+      update = "/home/$USER/nix-config/update.fish";
       garbage = "sudo nix-collect-garbage -d";
       upflake = "cd /home/$USER/nix-config && nix flake update && cd ~";
     };

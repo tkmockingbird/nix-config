@@ -10,6 +10,8 @@ in {
     ./bash
     ./tealdeer
     ./vscode
+    ./fish
+    ./rio-term
   ];
   home.packages = with pkgs; [
     # Browser Related

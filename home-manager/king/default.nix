@@ -8,8 +8,6 @@
     ../common
     ./git
     ./desktop-entries
-    ./rio-term
-    ./fish
   ];
 
   home.packages = with pkgs; [
