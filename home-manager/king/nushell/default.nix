@@ -36,16 +36,16 @@
 
         # Update terminal colors
         update terminal
-
-        # Define aliases using Nushell's alias command
-        alias vi = micro
-        alias vim = micro
-        alias nano = micro
-        alias upgit = /home/$nu.env.USER/nix-config/gitupdate.sh
-        alias update = /home/$nu.env.USER/nix-config/update.sh
-        alias garbage = sudo nix-collect-garbage -d
-        alias upflake = cd /home/$nu.env.USER/nix-config and nix flake update and cd ~
       '';
+      shellAliases = {
+        vi = "micro";
+        vim = "micro";
+        nano = "micro";
+        upgit = "/home/$(whoami)/nix-config/gitupdate.sh";
+        update = "/home/$(whoami)/nix-config/update.sh";
+        garbage = "sudo nix-collect-garbage -d";
+        upflake = "cd /home/$(whoami)/nix-config and nix flake update && cd ~";
+      };
     };
     carapace.enable = true;
     carapace.enableNushellIntegration = true;
