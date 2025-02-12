@@ -5,27 +5,38 @@ function on_error --on-event fish_exit
     exit 1
 end
 
-# Cache sudo credentials & Keep them active
+# Cache sudo privileges
 sudo -v
-fish -c "
-    while true
-        sudo -n true
-        sleep 60
-        if not kill -0 $fish_pid
-            exit
-        end
-    end
-" &
 
 # Define nixos-rebuild commands
 set valid_commands switch boot test build dry-activate build-vm build-vm-with-bootloader dry-build edit
 
-# Specify Rebuild Command
-read -P "Enter nixos-rebuild command (default: switch): " rebuild_type
+# Function to display usage
+function show_usage
+    echo "Usage: ./rebuild.fish [command] [options]"
+    echo "Valid commands: $valid_commands"
+    echo "Options: Any valid nixos-rebuild options"
+end
 
-# Sets default rebuild to switch if input is empty
+# Parse command-line arguments
+set rebuild_type $argv[1]
+set -e argv[1]
+set additional_options $argv
+
+# If no command is provided, prompt for it
 if test -z "$rebuild_type"
-    set rebuild_type switch
+    read -P "Enter nixos-rebuild command (default: switch): " rebuild_type
+    # Sets default rebuild to switch if input is empty
+    if test -z "$rebuild_type"
+        set rebuild_type switch
+    end
+end
+
+# Validate the rebuild type
+if not contains $rebuild_type $valid_commands
+    echo "Invalid rebuild type: $rebuild_type"
+    show_usage
+    exit 1
 end
 
 # Get the current user
@@ -68,7 +79,7 @@ log_message "Nix-config Copied to /etc/nixos"
 
 # Attempt to rebuild the system
 if contains $rebuild_type $valid_commands
-    if sudo nixos-rebuild $rebuild_type 2>&1 | sudo tee -a $log_file
+    if sudo nixos-rebuild $rebuild_type $additional_options 2>&1 | sudo tee -a $log_file
         log_message "NIXOS REBUILD COMPLETED"
         if test -f "/etc/nixos/flake.lock"
             log_message "Updating git's flake.lock"
