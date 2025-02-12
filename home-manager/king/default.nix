@@ -8,8 +8,8 @@
     ../common
     ./git
     ./desktop-entries
-    ./nushell
     ./rio-term
+    ./fish
   ];
 
   home.packages = with pkgs; [

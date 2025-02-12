@@ -2,6 +2,7 @@
   programs.rio = {
     enable = true;
     settings = {
+      theme = "/home/zachary/.config/themes/Breeze.toml";
       hide-cursor-when-typing = true;
       padding-x = 8;
       padding-y = [
@@ -48,7 +49,7 @@
       };
 
       shell = {
-        program = "/etc/profiles/per-user/zachary/bin/nu";
+        program = "/run/current-system/sw/bin/fish";
         args = ["--login"];
       };
     };
