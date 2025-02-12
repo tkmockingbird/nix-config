@@ -5,6 +5,7 @@
   nix-flatpak,
   zen-browser,
   nixpkgsConfig,
+  chaotic,
   ...
 }: let
   inherit (self) inputs;
@@ -34,6 +35,7 @@
           };
         }
         nix-flatpak.nixosModules.nix-flatpak
+        chaotic.nixosModules.default
       ];
 
       specialArgs = {
